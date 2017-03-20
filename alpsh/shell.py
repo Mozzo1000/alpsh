@@ -34,20 +34,13 @@ def execute(cmd_tokens):
     if cmd_name in built_in_cmds:
         return built_in_cmds[cmd_name](cmd_args)
 
-    pid = os.fork()
-    if pid == 0:
-        #Execute command
-        try:
-            subprocess.call(cmd_tokens)
-        except subprocess.CalledProcessError as error:
-            print("ERROR : " + error.output)
-        except OSError as error:
-            print("ERROR 2 : " + str(error))
-    elif pid > 0:
-        while True:
-            wpid, status = os.waitpid(pid, 0)
-            if os.WIFEXITED(status) or os.WIFSIGNALED(status):
-                break
+    #Execute command
+    try:
+        subprocess.call(cmd_tokens)
+    except subprocess.CalledProcessError as error:
+        print("ERROR : " + error.output)
+    except OSError as error:
+        print("ERROR 2 : " + str(error))
 
     #Return status indicating to wait for next command in shell_loop
     return SHELL_STATUS_RUN
