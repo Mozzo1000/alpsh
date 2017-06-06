@@ -65,6 +65,7 @@ def init():
 
 def main():
     init()
+    history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
     shell_loop()
 
 
