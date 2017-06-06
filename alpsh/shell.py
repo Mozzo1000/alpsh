@@ -60,6 +60,7 @@ def register_command(name, func):
 def init():
     register_command("cd", cd)
     register_command("exit", exit)
+    register_command("history", history)
 
 
 def main():
