@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 import os
 
 from alpsh import history
@@ -22,5 +22,11 @@ setup(
     license='MIT',
     author='Mozzo',
     author_email='',
-    description=''
+    description='',
+
+    entry_points={
+        'console_scripts': [
+            'alpsh=source:main',
+        ],
+    },
 )
