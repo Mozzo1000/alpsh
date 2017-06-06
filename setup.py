@@ -26,7 +26,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'alpsh=source:main',
+            'alpsh=alpsh:main',
         ],
     },
 )
