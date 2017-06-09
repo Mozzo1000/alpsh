@@ -2,8 +2,8 @@ import shlex
 import subprocess
 import sys
 
-import history as history_listener
-from constants import *
+import alpsh.history as history_listener
+from alpsh.constants import *
 from alpsh.builtins import *
 
 # Hash map to store built-in function name and reference as key and value
