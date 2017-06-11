@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import shlex
 import subprocess
 import sys
@@ -47,7 +49,10 @@ def execute(cmd_tokens):
     except subprocess.CalledProcessError as error:
         print("ERROR : " + error.output)
     except OSError as error:
-        print("ERROR 2 : " + str(error))
+        if str(error) == str("[Errno 2] No such file or directory: '" + str(cmd_tokens[0]) + "'"):
+            print(str(cmd_tokens[0]) + ": Command not found!")
+        else:
+            print("ERROR 2 : " + str(error))
 
     # Return status indicating to wait for next command in shell_loop
     return SHELL_STATUS_RUN
