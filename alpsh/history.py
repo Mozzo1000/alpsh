@@ -21,8 +21,8 @@ def write(command):
             data = json.load(history_read)
             filteredcommand = command.replace("\n", "")
         data['history'].append({
-            'timestamp': time.strftime("%c"),
-            'command': filteredcommand
+            'command': filteredcommand,
+            'timestamp': time.strftime("%c")
         })
         with open(location + 'alpsh_history.json', 'w') as history:
             json.dump(data, history, indent=4)
