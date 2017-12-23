@@ -3,10 +3,10 @@
 import shlex
 import subprocess
 import sys
-
 import alpsh.history as history_listener
 from alpsh.constants import *
 from alpsh.builtins import *
+import readline
 
 # Hash map to store built-in function name and reference as key and value
 built_in_cmds = {}
@@ -17,12 +17,8 @@ def shell_loop():
     status = SHELL_STATUS_RUN
 
     while status == SHELL_STATUS_RUN:
-        # Display a command prompt
-        sys.stdout.write('>')
-        sys.stdout.flush()
-
-        # Read the command input
-        cmd = sys.stdin.readline()
+        # Read the command input and display symbol
+        cmd = input('>')
 
         # Tokenize the command input
         cmd_tokens = tokenize(cmd)
@@ -71,6 +67,8 @@ def init():
 def main():
     init()
     history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
+    readline.parse_and_bind('tab: complete')
+    readline.read_history_file(history_listener.get_plain_file())
     shell_loop()
 
 
