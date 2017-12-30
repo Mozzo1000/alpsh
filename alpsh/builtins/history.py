@@ -11,8 +11,7 @@ def history(args):
     elif str(args[0]) == "list":
         # List history in order
         print("List history")
-        location = os.path.expanduser('~') + "/.alpsh/"
-        with open(location + 'alpsh_history.json', 'r') as history_list:
+        with open(LOCATION + 'alpsh_history.json', 'r') as history_list:
             data = json.load(history_list)
             count = 0
             for item in range(len(data["history"])):
