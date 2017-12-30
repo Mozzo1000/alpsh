@@ -62,6 +62,7 @@ def init():
     register_command("cd", cd)
     register_command("exit", exit)
     register_command("history", history)
+    register_command("ls", ls)
 
 
 def main():
