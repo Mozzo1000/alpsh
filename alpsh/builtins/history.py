@@ -15,7 +15,9 @@ def history(args):
             data = json.load(history_list)
             count = 0
             for item in range(len(data["history"])):
-                print(count, " : ", data["history"][count])
+                print("INDEX : " + str(count))
+                print("COMMAND : " + data['history'][count]['command'])
+                print("TIMESTAMP : " + data['history'][count]['timestamp'])
                 count += 1
 
     return SHELL_STATUS_RUN
