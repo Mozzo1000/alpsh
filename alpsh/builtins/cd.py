@@ -1,5 +1,9 @@
 import os
+import logging
 from alpsh.constants import *
+
+
+logger = logging.getLogger(__name__)
 
 
 def cd(args):
@@ -11,6 +15,7 @@ def cd(args):
             os.chdir(args[0])
         else:
             # The argument specified is NOT a directory, aka directory not found
+            logger.info("Directory not found!")
             print("Directory not found!")
     else:
         # No argument typed, change directory to the users home folder

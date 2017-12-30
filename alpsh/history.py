@@ -1,8 +1,9 @@
 import json
 import time
-import os
+import logging
 from alpsh.constants import *
 
+logger = logging.getLogger(__name__)
 file = "alpsh_history.json"
 
 
@@ -30,8 +31,8 @@ def get_plain_file():
             tmpfile.write(command['command'] + "\n")
             tmpfile.close()
         return LOCATION + 'alpsh_history_tmp'
-    except(IOError, OSError) as e:
-        print("File not found? : " + str(e))
+    except(IOError, OSError) as error:
+        logger.error("File not found? : " + str(error))
         return None
 
 
@@ -46,5 +47,5 @@ def write(command):
         })
         with open(LOCATION + file, 'w') as history:
             json.dump(data, history, indent=4)
-    except(IOError, OSError) as e:
-        print("File not found? : " + str(e))
+    except(IOError, OSError) as error:
+        logger.error("File not found? : " + str(error))
