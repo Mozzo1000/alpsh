@@ -1,5 +1,6 @@
 import os
 from alpsh.constants import *
+from alpsh.config import *
 
 
 def ls(args):
@@ -14,6 +15,6 @@ def ls(args):
         print("LIST DIR : " + os.getcwd())
         for link in os.listdir(os.getcwd()):
             if not link.startswith('.'):
-                print(COLORS.GREEN + link + COLORS.CLEAR + ' ', end='')
+                print(settings['general']['output_color'] + link + COLORS.CLEAR + ' ', end='')
         print()
     return SHELL_STATUS_RUN
