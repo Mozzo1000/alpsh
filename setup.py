@@ -9,10 +9,11 @@ setup(
     author='Mozzo',
     author_email='',
     description='',
-
+    install_requires=['pyYAML>=3.12'],
     entry_points={
         'console_scripts': [
             'alpsh=alpsh.shell:main',
         ],
+
     },
 )
