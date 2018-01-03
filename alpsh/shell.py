@@ -72,6 +72,7 @@ def main():
     init()
     history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
     config.create()
+    config.load()
     readline.parse_and_bind('tab: complete')
     readline.read_history_file(history_listener.get_plain_file())
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)-12s/%(funcName)s():%(lineno)d - %(message)s', filename=LOCATION + 'alpsh.log', level=logging.DEBUG)

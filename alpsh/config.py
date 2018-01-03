@@ -3,9 +3,18 @@ import logging
 from alpsh.constants import *
 
 file = "config.yaml"
+settings = {}
 
-with open(LOCATION + file, 'r') as readFile:
-    settings = yaml.load(readFile)
+
+def load():
+    global settings
+    readfile = open(LOCATION + file, 'r')
+    settings = yaml.load(readfile)
+    readfile.close()
+
+
+def get(head, sub=None):
+    return settings[head][sub]
 
 
 def create():
@@ -13,6 +22,7 @@ def create():
         os.makedirs(LOCATION)
     if not os.path.isfile(LOCATION + file):
         open(LOCATION + file, 'w')
+        reset_config()
 
 
 def reset_config():
