@@ -4,27 +4,26 @@ import logging
 from alpsh.constants import *
 
 logger = logging.getLogger(__name__)
-file = "alpsh_history.json"
 
 
 def create():
     if not os.path.exists(LOCATION):
         os.makedirs(LOCATION)
 
-    if not os.path.isfile(LOCATION + file):
+    if not os.path.isfile(LOCATION + HISTORY_FILE):
         data = {'history': []}
-        with open(LOCATION + file, 'w') as history:
+        with open(LOCATION + HISTORY_FILE, 'w') as history:
             json.dump(data, history, indent=4)
-    open(LOCATION + 'alpsh_history_tmp', 'w')
+    open(LOCATION + HISTORY_FILE_TMP, 'w')
 
 
 def get_file():
-    return LOCATION + file
+    return LOCATION + HISTORY_FILE
 
 
 def get_plain_file():
     try:
-        with open(LOCATION + file) as history_read:
+        with open(LOCATION + HISTORY_FILE) as history_read:
             data = json.load(history_read)
         for command in data['history']:
             tmpfile = open(LOCATION + 'alpsh_history_tmp', 'a')
@@ -38,7 +37,7 @@ def get_plain_file():
 
 def write(command, success=True):
     try:
-        with open(LOCATION + file) as history_read:
+        with open(LOCATION + HISTORY_FILE) as history_read:
             data = json.load(history_read)
             filteredcommand = command.replace("\n", "")
         data['history'].append({
@@ -46,7 +45,7 @@ def write(command, success=True):
             'timestamp': time.strftime("%c"),
             'success': str(success)
         })
-        with open(LOCATION + file, 'w') as history:
+        with open(LOCATION + HISTORY_FILE, 'w') as history:
             json.dump(data, history, indent=4)
     except(IOError, OSError) as error:
         logger.error("File not found? : " + str(error))
