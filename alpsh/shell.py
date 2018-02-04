@@ -27,7 +27,6 @@ def shell_loop():
 
         # Execute the command and retrieve new status
         status = execute(cmd_tokens)
-        history_listener.write(cmd)
 
 
 def tokenize(string):
@@ -39,17 +38,20 @@ def execute(cmd_tokens):
     cmd_args = cmd_tokens[1:]
 
     if cmd_name in built_in_cmds:
+        history_listener.write(" ".join(cmd_tokens))
         return built_in_cmds[cmd_name](cmd_args)
 
     # Execute command
     try:
         subprocess.call(cmd_tokens)
+        history_listener.write(" ".join(cmd_tokens))
     except subprocess.CalledProcessError as error:
         logger.error(error.output)
     except OSError as error:
         if str(error) == str("[Errno 2] No such file or directory: '" + str(cmd_tokens[0]) + "'"):
             logger.info(str(cmd_tokens[0]) + ": Command not found!")
             print(str(cmd_tokens[0]) + ": Command not found!")
+            history_listener.write(" ".join(cmd_tokens), False)
         else:
             logger.error(str(error))
 

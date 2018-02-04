@@ -18,6 +18,7 @@ def history(args):
                 print("INDEX : " + str(count))
                 print("COMMAND : " + data['history'][count]['command'])
                 print("TIMESTAMP : " + data['history'][count]['timestamp'])
+                print("SUCCESS : " + data['history'][count]['success'])
                 count += 1
 
     return SHELL_STATUS_RUN

@@ -36,14 +36,15 @@ def get_plain_file():
         return None
 
 
-def write(command):
+def write(command, success=True):
     try:
         with open(LOCATION + file) as history_read:
             data = json.load(history_read)
             filteredcommand = command.replace("\n", "")
         data['history'].append({
             'command': filteredcommand,
-            'timestamp': time.strftime("%c")
+            'timestamp': time.strftime("%c"),
+            'success': str(success)
         })
         with open(LOCATION + file, 'w') as history:
             json.dump(data, history, indent=4)
