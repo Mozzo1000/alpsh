@@ -8,9 +8,12 @@ settings = {}
 
 def load():
     global settings
-    readfile = open(LOCATION + file, 'r')
-    settings = yaml.load(readfile)
-    readfile.close()
+    try:
+        readfile = open(LOCATION + file, 'r')
+        settings = yaml.load(readfile)
+        readfile.close()
+    except IOError as error:
+        logging.error(str(error))
 
 
 def get(head, sub=None):
