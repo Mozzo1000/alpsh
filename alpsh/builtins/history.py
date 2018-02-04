@@ -20,5 +20,10 @@ def history(args):
                 print("TIMESTAMP : " + data['history'][count]['timestamp'])
                 print("SUCCESS : " + data['history'][count]['success'])
                 count += 1
+    elif str(args[0] == "clear"):
+        data = {'history': []}
+        with open(LOCATION + HISTORY_FILE, 'w') as history:
+            json.dump(data, history, indent=4)
+        open(LOCATION + HISTORY_FILE_TMP, 'w')
 
     return SHELL_STATUS_RUN
