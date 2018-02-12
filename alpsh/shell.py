@@ -7,6 +7,7 @@ import alpsh.history as history_listener
 import alpsh.config as config
 from alpsh.constants import *
 from alpsh.builtins import *
+import alpsh.prompt as prompt
 import readline
 
 # Hash map to store built-in function name and reference as key and value
@@ -20,7 +21,7 @@ def shell_loop():
 
     while status == SHELL_STATUS_RUN:
         # Read the command input and display symbol
-        cmd = input('>')
+        cmd = input(prompt.get_prompt())
 
         # Tokenize the command input
         cmd_tokens = tokenize(cmd)
@@ -75,6 +76,7 @@ def main():
     history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
     config.create()
     config.load()
+    prompt.handle_prompt()
     readline.parse_and_bind('tab: complete')
     readline.read_history_file(history_listener.get_plain_file())
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)-12s/%(funcName)s():%(lineno)d - %(message)s', filename=LOCATION + 'alpsh.log', level=logging.DEBUG)

@@ -30,6 +30,6 @@ def create():
 
 def reset_config():
     logging.debug("deleting everything and starting over!")
-    template = {'general':{'output_color':'\033[1;32;45m'}}
+    template = {'general':{'output_color':'\033[1;32;45m', 'prompt':'>'}}
     with open(LOCATION + file, 'w') as writeFile:
         yaml.dump(template, writeFile, default_flow_style=False)
