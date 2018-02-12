@@ -1,6 +1,7 @@
 import os
 import logging
 from alpsh.constants import *
+import alpsh.prompt as prompt
 
 
 logger = logging.getLogger(__name__)
@@ -20,4 +21,5 @@ def cd(args):
     else:
         # No argument typed, change directory to the users home folder
         os.chdir(os.path.expanduser('~'))
+    prompt.handle_prompt()
     return SHELL_STATUS_RUN
