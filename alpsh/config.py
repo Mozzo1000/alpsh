@@ -2,6 +2,8 @@ import yaml
 import logging
 from alpsh.constants import *
 
+logger = logging.getLogger(__name__)
+
 file = "config.yaml"
 settings = {}
 
@@ -13,7 +15,13 @@ def load():
         settings = yaml.load(readfile)
         readfile.close()
     except IOError as error:
-        logging.error(str(error))
+        logger.error(str(error))
+    except yaml.YAMLError as exc:
+        if hasattr(exc, 'problem_mark'):
+            mark = exc.problem_mark
+            logger.error("YAML Error : Position: (%s:%s)" % (mark.line+1, mark.column+1))
+        print("Can't load config file. Using default")
+        settings = {'general':{'output_color':'\033[1;32;45m', 'prompt':'>'}, 'text':{'danger':'\e[1;31m', 'warning':'\e[1;33m'}}
 
 
 def get(head, sub=None):
