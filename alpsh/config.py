@@ -21,7 +21,7 @@ def load():
             mark = exc.problem_mark
             logger.error("YAML Error : Position: (%s:%s)" % (mark.line+1, mark.column+1))
         print("Can't load config file. Using default")
-        settings = {'general':{'output_color':'\033[1;32;45m', 'prompt':'>'}, 'text':{'danger':'\e[1;31m', 'warning':'\e[1;33m'}}
+        settings = DEFAULT_CONFIG
 
 
 def get(head, sub=None):
@@ -38,7 +38,6 @@ def create():
 
 def reset_config():
     logging.debug("deleting everything and starting over!")
-    template = {'general':{'output_color':'\033[1;32;45m', 'prompt':'>'}, 'text':{'danger':'\e[1;31m',
-                                                                                  'warning':'\e[1;33m'}}
+
     with open(LOCATION + file, 'w') as writeFile:
-        yaml.dump(template, writeFile, default_flow_style=False)
+        yaml.dump(DEFAULT_CONFIG, writeFile, default_flow_style=False)
