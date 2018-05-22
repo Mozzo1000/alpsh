@@ -71,14 +71,14 @@ def init():
     register_command("cd", cd)
     register_command("exit", exit)
     register_command("history", history)
-    register_command("ls", ls)
-
+    if config.get('general', 'override_coreutils') == "True":
+        register_command("ls", ls)
 
 def main():
-    init()
-    history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
     config.create()
     config.load()
+    init()
+    history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
     prompt.handle_prompt()
     readline.parse_and_bind('tab: complete')
     readline.read_history_file(history_listener.get_plain_file())
