@@ -12,6 +12,7 @@ import readline
 
 # Hash map to store built-in function name and reference as key and value
 built_in_cmds = {}
+alias_in_cmds = {}
 logger = logging.getLogger(__name__)
 
 
@@ -42,20 +43,27 @@ def execute(cmd_tokens):
         if cmd_name in built_in_cmds:
             history_listener.write(" ".join(cmd_tokens))
             return built_in_cmds[cmd_name](cmd_args)
+        elif cmd_name in alias_in_cmds:
+            try:
+                subprocess.call(tokenize(alias_in_cmds[cmd_name]))
+            except FileNotFoundError:
+                logger.info(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
+                print(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
+        else:
 
-        # Execute command
-        try:
-            subprocess.call(cmd_tokens)
-            history_listener.write(" ".join(cmd_tokens))
-        except subprocess.CalledProcessError as error:
-            logger.error(error.output)
-        except OSError as error:
-            if str(error) == str("[Errno 2] No such file or directory: '" + str(cmd_tokens[0]) + "'"):
-                logger.info(str(cmd_tokens[0]) + ": Command not found!")
-                print(str(cmd_tokens[0]) + ": Command not found!")
-                history_listener.write(" ".join(cmd_tokens), False)
-            else:
-                logger.error(str(error))
+            # Execute command
+            try:
+                subprocess.call(cmd_tokens)
+                history_listener.write(" ".join(cmd_tokens))
+            except subprocess.CalledProcessError as error:
+                logger.error(error.output)
+            except OSError as error:
+                if str(error) == str("[Errno 2] No such file or directory: '" + str(cmd_tokens[0]) + "'"):
+                    logger.info(str(cmd_tokens[0]) + ": Command not found!")
+                    print(str(cmd_tokens[0]) + ": Command not found!")
+                    history_listener.write(" ".join(cmd_tokens), False)
+                else:
+                    logger.error(str(error))
     except IndexError as error:
         logger.debug("IndexError occurred : " + str(error))
 
@@ -67,12 +75,26 @@ def register_command(name, func):
     built_in_cmds[name] = func
 
 
+def register_alias():
+    ALIAS_FILE_NAME = 'alias'
+    if not os.path.isfile(LOCATION + ALIAS_FILE_NAME):
+        with open(LOCATION + ALIAS_FILE_NAME, 'w') as alias_file:
+            alias_file.write('alias=ls:ls --color=always')
+
+    alias_file = open(LOCATION + ALIAS_FILE_NAME, 'r').readlines()
+    for line in alias_file:
+        alias_command = line.replace('alias=', '').replace("\n", '').split(':')
+        alias_in_cmds[alias_command[0]] = alias_command[1]
+
+
 def init():
     register_command("cd", cd)
     register_command("exit", exit)
     register_command("history", history)
     if config.get('general', 'override_coreutils') == "True":
         register_command("ls", ls)
+    register_alias()
+
 
 def main():
     config.create()
