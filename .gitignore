@@ -52,3 +52,6 @@ Temporary Items
 .idea/misc.xml
 .idea/vcs.xml
 alpsh_history.json
+build/*
+dist/*
+alpsh.egg-info/*
