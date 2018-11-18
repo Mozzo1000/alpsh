@@ -15,7 +15,8 @@ def handle_prompt():
         altered_prompt = altered_prompt.replace('@user', getpass.getuser())
     if "@dir" in config.get('general', 'prompt'):
         altered_prompt = altered_prompt.replace('@dir', os.path.split(os.getcwd())[1])
-
+    if "@fulldir" in config.get('general', 'prompt'):
+        altered_prompt = altered_prompt.replace('@fulldir', os.getcwd())
 
 def get_prompt():
     return altered_prompt
