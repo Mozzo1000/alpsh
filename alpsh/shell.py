@@ -58,7 +58,7 @@ def execute(cmd_tokens):
             except subprocess.CalledProcessError as error:
                 logger.error(error.output)
             except OSError as error:
-                if str(error) == str("[Errno 2] No such file or directory: '" + str(cmd_tokens[0]) + "'"):
+                if "[Errno 2] No such file or directory:" in str(error):
                     logger.info(str(cmd_tokens[0]) + ": Command not found!")
                     print(str(cmd_tokens[0]) + ": Command not found!")
                     history_listener.write(" ".join(cmd_tokens), False)
