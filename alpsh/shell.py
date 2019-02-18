@@ -9,6 +9,7 @@ from alpsh.constants import *
 from alpsh.builtins import *
 import alpsh.prompt as prompt
 import readline
+import platform
 
 # Hash map to store built-in function name and reference as key and value
 built_in_cmds = {}
@@ -49,6 +50,9 @@ def execute(cmd_tokens):
             except FileNotFoundError:
                 logger.info(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
                 print(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
+        elif config.get('general', 'open_if_file') == 'True' and os.path.isfile(cmd_name):
+            if platform.system() == "Darwin":
+                subprocess.call('open ' + cmd_name, shell=True)
         else:
 
             # Execute command

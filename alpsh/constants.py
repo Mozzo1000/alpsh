@@ -7,7 +7,8 @@ LOCATION = os.path.expanduser('~') + "/.alpsh/"
 HISTORY_FILE = 'alpsh_history.json'
 HISTORY_FILE_TMP = 'alpsh_history_tmp'
 
-DEFAULT_CONFIG = {'general':{'output_color':'\033[1;32;45m', 'prompt':'>', 'override_coreutils':'False'},
+
+DEFAULT_CONFIG = {'general':{'output_color':'\033[1;32;45m', 'prompt':'>', 'override_coreutils':'False', 'open_if_file': 'True'},
                                                                                     'text':{'danger':'\033[1;31m',
                                                                                     'warning':'\033[1;33m'}}
 
