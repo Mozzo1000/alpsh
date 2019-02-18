@@ -25,7 +25,10 @@ def load():
 
 
 def get(head, sub=None):
-    return settings[head][sub]
+    if sub is None:
+        return settings[head]
+    else:
+        return settings[head][sub]
 
 
 def create():
