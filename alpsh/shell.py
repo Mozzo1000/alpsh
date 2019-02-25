@@ -53,6 +53,8 @@ def execute(cmd_tokens):
         elif config.get('general', 'open_if_file') == 'True' and os.path.isfile(cmd_name):
             if platform.system() == "Darwin":
                 subprocess.call('open ' + cmd_name, shell=True)
+        elif os.path.isdir(cmd_name):
+            os.chdir(cmd_name)
         else:
 
             # Execute command
