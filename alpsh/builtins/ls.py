@@ -1,5 +1,7 @@
 import os
+from rapidtables import make_table
 from alpsh.constants import *
+import alpsh.utils as utils
 import alpsh.config as config
 
 
@@ -19,9 +21,20 @@ def ls(args):
         elif os.path.isfile(args[0]):
             print("Not a directory!")
     else:
-        print("LIST DIR : " + os.getcwd())
+        table = []
         for link in os.listdir(os.getcwd()):
             if not link.startswith('.'):
-                print(str(config.get('general', 'output_color')) + link + COLORS.CLEAR + ' ', end='')
+                full_path = os.getcwd() + "/" + link
+                size = os.path.getsize(full_path)
+                if os.path.isdir(full_path):
+                    file_type = "Directory"
+                elif os.path.isfile(full_path):
+                    file_type = "File"
+                else:
+                    file_type = "Unknown"
+                table.append({'Name': link, 'Size': utils.convert_byte_size(size), "Type": file_type})
+
+        tables = make_table(table, tablefmt='md')
+        print(tables)
         print()
     return SHELL_STATUS_RUN
