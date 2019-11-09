@@ -1,1 +1,2 @@
 pyYAML>=3.12
+rapidtables
