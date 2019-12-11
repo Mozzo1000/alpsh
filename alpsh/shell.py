@@ -55,6 +55,7 @@ def execute(cmd_tokens):
                 subprocess.call('open ' + cmd_name, shell=True)
         elif os.path.isdir(cmd_name):
             os.chdir(cmd_name)
+            prompt.handle_prompt()
         else:
 
             # Execute command
