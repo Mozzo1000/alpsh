@@ -108,6 +108,7 @@ def main():
     config.load()
     init()
     history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
+    prompt.default_shell()
     prompt.handle_prompt()
     readline.parse_and_bind('tab: complete')
     readline.read_history_file(history_listener.get_plain_file())

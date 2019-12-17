@@ -1,7 +1,11 @@
-import alpsh.config as config
 import getpass
 import socket
 import os
+import subprocess
+import shlex
+import alpsh.utils as utils
+import alpsh.config as config
+
 
 altered_prompt = ""
 
@@ -20,3 +24,22 @@ def handle_prompt():
 
 def get_prompt():
     return altered_prompt
+
+
+def default_shell():
+    if utils.get_os() == "Darwin":
+        try:
+            shell = subprocess.check_output('dscl . -read /Users/mozzo UserShell', shell=True)
+            def_shell = shlex.split(shell.decode('utf-8'))[1]
+        except:
+            def_shell = "Can't detect default shell"
+
+    elif not utils.get_os():
+        def_shell = "Can't detect default shell"
+    else:
+        def_shell = "NOT IMPLEMENTED!"
+
+    if def_shell != utils.get_alpsh_installation():
+        print(config.get('text', 'warning') + '=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\nCURRENT DEFAULT SHELL IS : ' +
+              def_shell + '\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-')
+

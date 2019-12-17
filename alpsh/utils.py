@@ -1,3 +1,6 @@
+import platform
+import distutils.spawn
+
 byte_standard = [
     (1024 ** 5, ' PB'),
     (1024 ** 4, ' TB'),
@@ -29,3 +32,11 @@ def convert_byte_size(bytes, format=byte_standard):
         else:
             suffix = multiple
     return str(amount) + suffix
+
+
+def get_os():
+    return platform.system()
+
+
+def get_alpsh_installation():
+    return distutils.spawn.find_executable('alpsh')
