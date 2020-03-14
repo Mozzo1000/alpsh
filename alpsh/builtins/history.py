@@ -2,6 +2,7 @@ from alpsh.constants import *
 import os
 import json
 import alpsh.config as config
+import alpsh.history as history_listener
 
 
 def history(args):
@@ -29,10 +30,7 @@ def history(args):
         response = input("Are you sure you want to continue? [y/N] ")
         if response == "y":
             # Remove history
-            data = {'history': []}
-            with open(CONFIG_PATH + HISTORY_FILE, 'w') as history:
-                json.dump(data, history, indent=4)
-            open(CONFIG_PATH + HISTORY_FILE_TMP, 'w')
+            history_listener.create(reset=True)
             print(config.get_setting('text', 'warning') + "History cleared!\n" + COLORS.CLEAR)
         else:
             # Don't remove history
