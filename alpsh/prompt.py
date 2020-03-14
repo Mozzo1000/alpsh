@@ -1,3 +1,4 @@
+from alpsh.constants import *
 import getpass
 import socket
 import os
@@ -41,5 +42,5 @@ def default_shell():
 
     if def_shell != utils.get_alpsh_installation():
         print(config.get_setting('TEXT', 'warning') + '=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\nCURRENT DEFAULT SHELL IS : ' +
-              def_shell + '\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-')
+              def_shell + '\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' + COLORS.CLEAR)
 
