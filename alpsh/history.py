@@ -7,29 +7,29 @@ logger = logging.getLogger(__name__)
 
 
 def create():
-    if not os.path.exists(LOCATION):
-        os.makedirs(LOCATION)
+    if not os.path.exists(CONFIG_PATH):
+        os.makedirs(CONFIG_PATH)
 
-    if not os.path.isfile(LOCATION + HISTORY_FILE):
+    if not os.path.isfile(CONFIG_PATH + HISTORY_FILE):
         data = {'history': []}
-        with open(LOCATION + HISTORY_FILE, 'w') as history:
+        with open(CONFIG_PATH + HISTORY_FILE, 'w') as history:
             json.dump(data, history, indent=4)
-    open(LOCATION + HISTORY_FILE_TMP, 'w')
+    open(CONFIG_PATH + HISTORY_FILE_TMP, 'w')
 
 
 def get_file():
-    return LOCATION + HISTORY_FILE
+    return CONFIG_PATH + HISTORY_FILE
 
 
 def get_plain_file():
     try:
-        with open(LOCATION + HISTORY_FILE) as history_read:
+        with open(CONFIG_PATH + HISTORY_FILE) as history_read:
             data = json.load(history_read)
         for command in data['history']:
-            tmpfile = open(LOCATION + 'alpsh_history_tmp', 'a')
+            tmpfile = open(CONFIG_PATH + 'alpsh_history_tmp', 'a')
             tmpfile.write(command['command'] + "\n")
             tmpfile.close()
-        return LOCATION + 'alpsh_history_tmp'
+        return CONFIG_PATH + 'alpsh_history_tmp'
     except(IOError, OSError) as error:
         logger.error("File not found? : " + str(error))
         return None
@@ -37,7 +37,7 @@ def get_plain_file():
 
 def write(command, success=True):
     try:
-        with open(LOCATION + HISTORY_FILE) as history_read:
+        with open(CONFIG_PATH + HISTORY_FILE) as history_read:
             data = json.load(history_read)
             filteredcommand = command.replace("\n", "")
         data['history'].append({
@@ -45,7 +45,7 @@ def write(command, success=True):
             'timestamp': time.strftime("%c"),
             'success': str(success)
         })
-        with open(LOCATION + HISTORY_FILE, 'w') as history:
+        with open(CONFIG_PATH + HISTORY_FILE, 'w') as history:
             json.dump(data, history, indent=4)
     except(IOError, OSError) as error:
         logger.error("File not found? : " + str(error))

@@ -12,7 +12,7 @@ def history(args):
     elif str(args[0]) == "list":
         # List history in order
         print("List history")
-        with open(LOCATION + 'alpsh_history.json', 'r') as history_list:
+        with open(CONFIG_PATH + 'alpsh_history.json', 'r') as history_list:
             data = json.load(history_list)
             count = 0
             for item in range(len(data["history"])):
@@ -22,20 +22,20 @@ def history(args):
                 print("SUCCESS : " + data['history'][count]['success'])
                 count += 1
     elif str(args[0] == "clear"):
-        print(config.get('text', 'danger')+"-=-=-=-=-=-=-=-WARNING-=-=-=-=-=-=-=\n" +
+        print(config.get_setting('text', 'danger')+"-=-=-=-=-=-=-=-WARNING-=-=-=-=-=-=-=\n" +
               COLORS.CLEAR + "You are about to remove your command history.\n" +
               "This is generally not necessary and is not recommended to do without reason.\n" +
-              config.get('text', 'danger') + "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + COLORS.CLEAR)
+              config.get_setting('text', 'danger') + "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + COLORS.CLEAR)
         response = input("Are you sure you want to continue? [y/N] ")
         if response == "y":
             # Remove history
             data = {'history': []}
-            with open(LOCATION + HISTORY_FILE, 'w') as history:
+            with open(CONFIG_PATH + HISTORY_FILE, 'w') as history:
                 json.dump(data, history, indent=4)
-            open(LOCATION + HISTORY_FILE_TMP, 'w')
-            print(config.get('text', 'warning') + "History cleared!\n" + COLORS.CLEAR)
+            open(CONFIG_PATH + HISTORY_FILE_TMP, 'w')
+            print(config.get_setting('text', 'warning') + "History cleared!\n" + COLORS.CLEAR)
         else:
             # Don't remove history
-            print(config.get('text', 'warning') + "Aborted!\n" + COLORS.CLEAR)
+            print(config.get_setting('text', 'warning') + "Aborted!\n" + COLORS.CLEAR)
 
     return SHELL_STATUS_RUN

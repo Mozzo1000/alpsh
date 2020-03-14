@@ -1,46 +1,35 @@
-import yaml
 import logging
 from alpsh.constants import *
+import configparser
+import os
 
 logger = logging.getLogger(__name__)
 
-file = "config.yaml"
-settings = {}
+
+def create_config(reset=False):
+    if not os.path.exists(CONFIG_PATH):
+        os.makedirs(CONFIG_PATH)
+    if not os.path.exists(CONFIG_PATH + CONFIG_FILE) or reset is True:
+        config = configparser.ConfigParser()
+        config.read_dict(DEFAULT_CONFIG_INI)
+
+        with open(CONFIG_PATH + CONFIG_FILE, 'w') as config_file:
+            config.write(config_file)
 
 
-def load():
-    global settings
-    try:
-        readfile = open(LOCATION + file, 'r')
-        settings = yaml.load(readfile)
-        readfile.close()
-    except IOError as error:
-        logger.error(str(error))
-    except yaml.YAMLError as exc:
-        if hasattr(exc, 'problem_mark'):
-            mark = exc.problem_mark
-            logger.error("YAML Error : Position: (%s:%s)" % (mark.line+1, mark.column+1))
-        print("Can't load config file. Using default")
-        settings = DEFAULT_CONFIG
+def get_config():
+    config = configparser.ConfigParser()
+    config.read(CONFIG_PATH + CONFIG_FILE)
+    return config
 
 
-def get(head, sub=None):
-    if sub is None:
-        return settings[head]
-    else:
-        return settings[head][sub]
+def get_setting(section, setting, fallback=None):
+    config = get_config()
+    return config.get(section.upper(), setting, fallback=fallback)
 
 
-def create():
-    if not os.path.exists(LOCATION):
-        os.makedirs(LOCATION)
-    if not os.path.isfile(LOCATION + file):
-        open(LOCATION + file, 'w')
-        reset_config()
-
-
-def reset_config():
-    logging.debug("deleting everything and starting over!")
-
-    with open(LOCATION + file, 'w') as writeFile:
-        yaml.dump(DEFAULT_CONFIG, writeFile, default_flow_style=False)
+def update_config(section, setting, value):
+    config = get_config()
+    config.set(section, setting, value)
+    with open(CONFIG_PATH + CONFIG_FILE, 'w') as config_file:
+        config.write(config_file)

@@ -50,7 +50,7 @@ def execute(cmd_tokens):
             except FileNotFoundError:
                 logger.info(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
                 print(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
-        elif config.get('general', 'open_if_file') == 'True' and os.path.isfile(cmd_name):
+        elif config.get_setting('general', 'open_if_file') is True and os.path.isfile(cmd_name):
             if platform.system() == "Darwin":
                 subprocess.call('open ' + cmd_name, shell=True)
         elif os.path.isdir(cmd_name):
@@ -84,11 +84,11 @@ def register_command(name, func):
 
 def register_alias():
     ALIAS_FILE_NAME = 'alias'
-    if not os.path.isfile(LOCATION + ALIAS_FILE_NAME):
-        with open(LOCATION + ALIAS_FILE_NAME, 'w') as alias_file:
+    if not os.path.isfile(CONFIG_PATH + ALIAS_FILE_NAME):
+        with open(CONFIG_PATH + ALIAS_FILE_NAME, 'w') as alias_file:
             alias_file.write('alias=ls:ls --color=always')
 
-    alias_file = open(LOCATION + ALIAS_FILE_NAME, 'r').readlines()
+    alias_file = open(CONFIG_PATH + ALIAS_FILE_NAME, 'r').readlines()
     for line in alias_file:
         alias_command = line.replace('alias=', '').replace("\n", '').split(':')
         alias_in_cmds[alias_command[0]] = alias_command[1]
@@ -98,21 +98,20 @@ def init():
     register_command("cd", cd)
     register_command("exit", exit)
     register_command("history", history)
-    if config.get('general', 'override_coreutils') == "True":
+    if config.get_setting('general', 'override_coreutils') == "True":
         register_command("ls", ls)
     register_alias()
 
 
 def main():
-    config.create()
-    config.load()
+    config.create_config()
     init()
     history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
     prompt.default_shell()
     prompt.handle_prompt()
     readline.parse_and_bind('tab: complete')
     readline.read_history_file(history_listener.get_plain_file())
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)-12s/%(funcName)s():%(lineno)d - %(message)s', filename=LOCATION + 'alpsh.log', level=logging.DEBUG)
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)-12s/%(funcName)s():%(lineno)d - %(message)s', filename=CONFIG_PATH + 'alpsh.log', level=logging.DEBUG)
     shell_loop()
 
 
