@@ -18,10 +18,10 @@ def history(args):
             data = json.load(history_list)
             count = 0
             table = []
-            history_data = data['history'][count]
             for item in range(len(data["history"])):
-                table.append({'Index': str(count), 'Command': history_data['command'],
-                              "Timestamp": history_data['timestamp'], 'Success': history_data['success']})
+                table.append({'Index': str(count), 'Command': data['history'][count]['command'],
+                              "Timestamp": data['history'][count]['timestamp'],
+                              'Success': data['history'][count]['success']})
                 count += 1
             tables = make_table(table, tablefmt='md')
             print(tables)
