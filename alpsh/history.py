@@ -6,11 +6,11 @@ from alpsh.constants import *
 logger = logging.getLogger(__name__)
 
 
-def create():
+def create(reset=False):
     if not os.path.exists(CONFIG_PATH):
         os.makedirs(CONFIG_PATH)
 
-    if not os.path.isfile(CONFIG_PATH + HISTORY_FILE):
+    if not os.path.isfile(CONFIG_PATH + HISTORY_FILE) or reset is True:
         data = {'history': []}
         with open(CONFIG_PATH + HISTORY_FILE, 'w') as history:
             json.dump(data, history, indent=4)
