@@ -88,10 +88,11 @@ def register_alias():
         with open(CONFIG_PATH + ALIAS_FILE_NAME, 'w') as alias_file:
             alias_file.write('alias=ls:ls --color=always')
 
-    alias_file = open(CONFIG_PATH + ALIAS_FILE_NAME, 'r').readlines()
-    for line in alias_file:
+    alias_file = open(CONFIG_PATH + ALIAS_FILE_NAME, 'r')
+    for line in alias_file.readlines():
         alias_command = line.replace('alias=', '').replace("\n", '').split(':')
         alias_in_cmds[alias_command[0]] = alias_command[1]
+    alias_file.close()
 
 
 def init():
