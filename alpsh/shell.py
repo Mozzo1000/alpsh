@@ -99,6 +99,7 @@ def init():
     register_command("cd", cd)
     register_command("exit", exit)
     register_command("history", history)
+    register_command('reload', reload)
     if config.get_setting('general', 'override_coreutils') == "True":
         register_command("ls", ls)
     register_alias()
