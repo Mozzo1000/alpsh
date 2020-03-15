@@ -43,7 +43,8 @@ def write(command, success=True):
         data['history'].append({
             'command': filteredcommand,
             'timestamp': time.strftime("%c"),
-            'success': str(success)
+            'success': str(success),
+            'dir_when_ran': str(os.getcwd())
         })
         with open(CONFIG_PATH + HISTORY_FILE, 'w') as history:
             json.dump(data, history, indent=4)

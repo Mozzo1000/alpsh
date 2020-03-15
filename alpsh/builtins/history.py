@@ -21,7 +21,8 @@ def history(args):
             for item in range(len(data["history"])):
                 table.append({'Index': str(count), 'Command': data['history'][count]['command'],
                               "Timestamp": data['history'][count]['timestamp'],
-                              'Success': data['history'][count]['success']})
+                              'Success': data['history'][count]['success'],
+                              'Ran from directory': data['history'][count]['dir_when_ran']})
                 count += 1
             tables = make_table(table, tablefmt='md')
             print(tables)
