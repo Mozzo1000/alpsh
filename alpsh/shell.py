@@ -10,6 +10,7 @@ from alpsh.builtins import *
 import alpsh.prompt as prompt
 import readline
 import platform
+import os
 
 # Hash map to store built-in function name and reference as key and value
 built_in_cmds = {}
@@ -40,6 +41,10 @@ def execute(cmd_tokens):
     try:
         cmd_name = cmd_tokens[0]
         cmd_args = cmd_tokens[1:]
+
+        if any('~' in word for word in cmd_args):
+            logger.debug('Expanding tilde')
+            cmd_tokens[1:] = [args.replace('~', os.path.expanduser('~')) for args in cmd_tokens[1:]]
 
         if cmd_name in built_in_cmds:
             history_listener.write(" ".join(cmd_tokens))
