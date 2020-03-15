@@ -22,7 +22,6 @@ def print_table(directory):
     for link in os.listdir(directory):
         if not link.startswith('.'):
             full_path = directory + "/" + link
-            print(full_path)
             size = os.path.getsize(full_path)
             if os.path.isdir(full_path):
                 file_type = "Directory"
