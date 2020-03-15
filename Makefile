@@ -5,4 +5,4 @@ test:
 	python3 -m unittest
 
 lint:
-	flake8 --statistics --output-file=lint_errors.txt --tee 
+	flake8 --statistics --output-file=lint_errors.txt --max-line-length=120 --tee 
