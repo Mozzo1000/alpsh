@@ -57,3 +57,4 @@ dist/*
 alpsh.egg-info/*
 .idea/*
 shell.spec
+lint_errors.txt
