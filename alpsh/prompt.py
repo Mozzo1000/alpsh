@@ -30,7 +30,7 @@ def get_prompt():
 def default_shell():
     if utils.get_os() == "Darwin":
         try:
-            shell = subprocess.check_output('dscl . -read /Users/mozzo UserShell', shell=True)
+            shell = subprocess.check_output('dscl . -read /Users/' + getpass.getuser() + ' UserShell', shell=True)
             def_shell = shlex.split(shell.decode('utf-8'))[1]
         except:
             def_shell = "Can't detect default shell"
