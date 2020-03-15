@@ -41,6 +41,7 @@ def default_shell():
         def_shell = "NOT IMPLEMENTED!"
 
     if def_shell != utils.get_alpsh_installation():
-        print(config.get_setting('TEXT', 'warning') + '=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\nCURRENT DEFAULT SHELL IS : ' +
-              def_shell + '\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' + COLORS.CLEAR)
+        if config.get_setting('GENERAL', 'show_default_shell_warning', isbool=True) is True:
+            print(config.get_setting('TEXT', 'warning') + '=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\nCURRENT DEFAULT SHELL IS : ' +
+                  def_shell + '\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-' + COLORS.CLEAR)
 

@@ -55,7 +55,7 @@ def execute(cmd_tokens):
             except FileNotFoundError:
                 logger.info(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
                 print(str(tokenize(alias_in_cmds[cmd_name])) + " : Command not found!")
-        elif config.get_setting('general', 'open_if_file') is True and os.path.isfile(cmd_name):
+        elif config.get_setting('general', 'open_if_file', isbool=True) is True and os.path.isfile(cmd_name):
             if platform.system() == "Darwin":
                 subprocess.call('open ' + cmd_name, shell=True)
         elif os.path.isdir(cmd_name):
