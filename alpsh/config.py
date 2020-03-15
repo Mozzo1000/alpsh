@@ -33,9 +33,12 @@ def get_config():
     return config
 
 
-def get_setting(section, setting, fallback=None):
+def get_setting(section, setting, fallback=None, isbool=False):
     config = get_config()
-    return config.get(section.upper(), setting, fallback=fallback)
+    if isbool is True:
+        return config.getboolean(section.lower(), setting, fallback=fallback)
+    else:
+        return config.get(section.lower(), setting, fallback=fallback)
 
 
 def update_config(section, setting, value):
