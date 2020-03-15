@@ -11,7 +11,17 @@ def create_config(reset=False):
         os.makedirs(CONFIG_PATH)
     if not os.path.exists(CONFIG_PATH + CONFIG_FILE) or reset is True:
         config = configparser.ConfigParser()
-        config.read_dict(DEFAULT_CONFIG_INI)
+
+        config.add_section('general')
+        config.add_section('text')
+
+        config.set('general', 'output_color', "'\033[1;32;45m'")
+        config.set('general', 'prompt', '>')
+        config.set('general', 'override_coreutils', 'False')
+        config.set('general', 'open_if_file', 'True')
+        config.set('general', 'show_default_shell_warning', 'True')
+        config.set('text', 'danger', "'\033[1;31m'")
+        config.set('text', 'warning', "'\033[1;33m'")
 
         with open(CONFIG_PATH + CONFIG_FILE, 'w') as config_file:
             config.write(config_file)
