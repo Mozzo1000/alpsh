@@ -8,6 +8,7 @@ import alpsh.config as config
 from alpsh.constants import *
 from alpsh.builtins import *
 import alpsh.prompt as prompt
+import alpsh.signals as signals
 import readline
 import platform
 import os
@@ -111,6 +112,7 @@ def init():
 
 
 def main():
+    signals.register_signals()
     config.create_config()
     init()
     history_listener.create()  # Checks if the 'alpsh_history.json' file exists, if not it creates it.
