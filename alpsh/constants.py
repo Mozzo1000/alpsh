@@ -8,6 +8,7 @@ CONFIG_FILE = 'config.ini'
 HISTORY_FILE = 'alpsh_history.json'
 HISTORY_FILE_TMP = 'alpsh_history_tmp'
 
+default_shell_error_message = "Can't detect default shell"
 
 class COLORS:
     CLEAR = '\033[0m'

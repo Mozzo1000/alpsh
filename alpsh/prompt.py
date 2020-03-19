@@ -43,12 +43,12 @@ def default_shell():
                     def_shell = line.split(':')[-1].replace('\n', '')
 
         elif not utils.get_os():
-            def_shell = "Can't detect default shell"
+            def_shell = default_shell_error_message
         else:
             def_shell = "NOT IMPLEMENTED!"
     except:
-        logger.debug("Can't detect default shell")
-        def_shell = "Can't detect default shell"
+        logger.debug(default_shell_error_message)
+        def_shell = default_shell_error_message
 
     if def_shell != utils.get_alpsh_installation():
         if config.get_setting('GENERAL', 'show_default_shell_warning', isbool=True) is True:
