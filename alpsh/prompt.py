@@ -5,10 +5,12 @@ import os
 import subprocess
 import shlex
 import re
+import logging
 import alpsh.utils as utils
 import alpsh.config as config
 
 
+logger = logging.getLogger(__name__)
 altered_prompt = ""
 
 
@@ -29,25 +31,24 @@ def get_prompt():
 
 
 def default_shell():
-    if utils.get_os() == "Darwin":
-        try:
+    try:
+        if utils.get_os() == "Darwin":
             shell = subprocess.check_output('dscl . -read /Users/' + getpass.getuser() + ' UserShell', shell=True)
             def_shell = shlex.split(shell.decode('utf-8'))[1]
-        except:
-            def_shell = "Can't detect default shell"
 
-    if utils.get_os() == "Linux":
-        try:
+        elif utils.get_os() == "Linux":
             file = open('/etc/passwd')
             for line in file:
                 if re.search(getpass.getuser(), line):
                     def_shell = line.split(':')[-1].replace('\n', '')
-        except:
+
+        elif not utils.get_os():
             def_shell = "Can't detect default shell"
-    elif not utils.get_os():
+        else:
+            def_shell = "NOT IMPLEMENTED!"
+    except:
+        logger.debug("Can't detect default shell")
         def_shell = "Can't detect default shell"
-    else:
-        def_shell = "NOT IMPLEMENTED!"
 
     if def_shell != utils.get_alpsh_installation():
         if config.get_setting('GENERAL', 'show_default_shell_warning', isbool=True) is True:
