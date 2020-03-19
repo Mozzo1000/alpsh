@@ -4,6 +4,7 @@ import socket
 import os
 import subprocess
 import shlex
+import re
 import alpsh.utils as utils
 import alpsh.config as config
 
@@ -35,6 +36,14 @@ def default_shell():
         except:
             def_shell = "Can't detect default shell"
 
+    if utils.get_os() == "Linux":
+        try:
+            file = open('/etc/passwd')
+            for line in file:
+                if re.search(getpass.getuser(), line):
+                    def_shell = line.split(':')[-1].replace('\n', '')
+        except:
+            def_shell = "Can't detect default shell"
     elif not utils.get_os():
         def_shell = "Can't detect default shell"
     else:
