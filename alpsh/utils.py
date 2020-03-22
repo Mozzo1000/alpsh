@@ -1,5 +1,6 @@
 import platform
 import distutils.spawn
+import itertools
 
 byte_standard = [
     (1024 ** 5, ' PB'),
@@ -40,3 +41,13 @@ def get_os():
 
 def get_alpsh_installation():
     return distutils.spawn.find_executable('alpsh')
+
+
+def split_list(l, condition):
+    groupby = itertools.groupby(l, condition)
+    return [list(group) for k, group in groupby if not k]
+
+
+def split_pipes(cmd):
+    result = split_list(cmd, (lambda x: x == '|'))
+    return result

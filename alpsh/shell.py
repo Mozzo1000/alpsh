@@ -7,11 +7,13 @@ import alpsh.history as history_listener
 import alpsh.config as config
 from alpsh.constants import *
 from alpsh.builtins import *
+from alpsh.utils import split_pipes
 import alpsh.prompt as prompt
 import alpsh.signals as signals
 import readline
 import platform
 import os
+import time
 
 # Hash map to store built-in function name and reference as key and value
 built_in_cmds = {}
@@ -47,7 +49,23 @@ def execute(cmd_tokens):
             logger.debug('Expanding tilde')
             cmd_tokens[1:] = [args.replace('~', os.path.expanduser('~')) for args in cmd_tokens[1:]]
 
-        if cmd_name in built_in_cmds:
+        if '|' in cmd_tokens:
+            pipeline = split_pipes(cmd_tokens)
+            procs = [subprocess.Popen(pipeline[0], stdout=subprocess.PIPE)]
+            time.sleep(0.1)
+            for index, cmd in enumerate(pipeline):
+                if index == 0:
+                    continue
+                elif index < len(pipeline) - 1:
+                    procs.append(subprocess.Popen(cmd, stdin=procs[index-1].stdout, stdout=subprocess.PIPE))
+                else:
+                    procs.append(subprocess.Popen(cmd, stdin=procs[index-1].stdout))
+                time.sleep(0.1)
+
+            procs[0].communicate()
+            procs[-1].wait()
+
+        elif cmd_name in built_in_cmds:
             history_listener.write(" ".join(cmd_tokens))
             return built_in_cmds[cmd_name](cmd_args)
         elif cmd_name in alias_in_cmds:
