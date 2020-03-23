@@ -6,6 +6,7 @@ import subprocess
 import shlex
 import re
 import logging
+from pathlib import Path
 import alpsh.utils as utils
 import alpsh.config as config
 
@@ -25,6 +26,8 @@ def handle_prompt():
         altered_prompt = altered_prompt.replace('@dir', os.path.split(os.getcwd())[1])
     if "@fulldir" in config.get_setting('GENERAL', 'prompt'):
         altered_prompt = altered_prompt.replace('@fulldir', os.getcwd())
+    if "@shortdir" in config.get_setting('general', 'prompt'):
+        altered_prompt = altered_prompt.replace('@shortdir', str(Path(*Path(os.getcwd()).parts[-config.get_setting('prompt', 'short_directory_length', fallback=4):])))
 
 def get_prompt():
     return altered_prompt

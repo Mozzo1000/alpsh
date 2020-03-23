@@ -14,6 +14,7 @@ def create_config(reset=False):
 
         config.add_section('general')
         config.add_section('text')
+        config.add_section('prompt')
 
         config.set('general', 'output_color', "'\033[1;32;45m'")
         config.set('general', 'prompt', '>')
@@ -22,6 +23,7 @@ def create_config(reset=False):
         config.set('general', 'show_default_shell_warning', 'True')
         config.set('text', 'danger', "'\033[1;31m'")
         config.set('text', 'warning', "'\033[1;33m'")
+        config.set('prompt', 'short_directory_length', '4')
 
         with open(CONFIG_PATH + CONFIG_FILE, 'w') as config_file:
             config.write(config_file)
